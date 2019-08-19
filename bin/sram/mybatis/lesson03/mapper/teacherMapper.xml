@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sram.mybatis.lesson03.pojo.Teacher">
+	
+
+	<!-- 查询用户表记录数 -->
+	<select id="queryList" resultType="teacher">
+		select Tno,Tname from teacher
+	</select>
+	
+	
+	<!-- crud之create -->
+	<insert id="save" parameterType="hashMap">
+		insert into teacher(Tno,Tname) values(#{no},#{name});
+	</insert>
+	<!-- crud之Retrieve -->
+	<!-- crud之update -->
+	<!-- crud之delete -->
+</mapper>

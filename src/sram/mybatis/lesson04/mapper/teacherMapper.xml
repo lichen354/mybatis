@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sram.mybatis.lesson04.pojo.Teacher">
+	<!-- resultMap type="pojo对象" id="ID名" -->
+	<resultMap type="sram.mybatis.lesson04.pojo.Teacher" id="teacherMap">
+		<id property="tno" column="Tno" javaType="String" jdbcType="VARCHAR"/><!-- VARCHAR大写 -->
+		<result property="tname" column="Tname" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="queryList" resultMap="teacherMap">
+		select Tno,Tname from teacher
+	</select>
+</mapper>

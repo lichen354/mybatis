@@ -1,0 +1,23 @@
+http://www.mybatis.org/mybatis-3/zh/java-api.html#sqlSessions
+
+1.ORM(Object Relational Mapping)  对象-关系映射
+
+2.MyBatis基本要素
+	① configuration.xml 全局配置文件
+	② mapper.xml 核心映射文件
+	③ MyBatis的核心对象
+		SqlSessionFactoryBuilder
+		SqlSessionFactory
+		SqlSession
+		
+3.configuration.xml 是系统的核心配置文件，包含数据源和事务管理器等设置和属性信息
+
+
+4.使用MyBatis的开发步骤
+	下载mybatis-3.2.2.jar包并导入工程
+	编写MyBatis核心配置文件(configuration.xml)
+	创建实体类-POJO
+	DAO层-SQL映射文件(mapper.xml)
+	创建测试类
+	
+5.namespace和子元素的id联合保证唯一，区别不同的mapper

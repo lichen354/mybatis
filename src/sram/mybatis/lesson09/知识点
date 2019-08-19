@@ -1,0 +1,21 @@
+mybatis注解开发
+
+	@Results
+	 * 定义一个Results
+     * id为该Results的名字，可以供其他方法调用
+     * value为一个包含Result对象的数组
+     * Result的column表示数据表的字段名，
+     * property为数据表当前column字段所映射的对象的属性
+     * id表示该column该字段是否为主键，默认条件下为非主键
+     * one用于表与表之间一对一映射时使用;many用于表与表之间一对多映射时使用
+     * one的select属性，一对一查询所要执行的方法名
+     * fetchType表示数据加载形式（FetchType.EAGER表示立即加载，FetchType.LAZY表示懒加载
+     */
+	
+	
+在持久层接口中使用注解配置二级缓存
+
+	/** mybatis基于注解方式实现配置二级缓存 */
+	@CacheNamespace(blocking = true)
+	public interface AccountDao {
+	    ...

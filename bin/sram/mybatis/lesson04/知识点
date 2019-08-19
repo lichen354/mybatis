@@ -1,0 +1,31 @@
+resultMap 	结果集---Java对象
+	id 一般对应数据库中该行的主键id，设置此项可提高MyBatis性能
+	result 映射到JavaBean的某个"简单类型"属性
+	association 映射到JavaBean的某个"复杂类型"属性，比如JavaBean类
+	collection 映射到JavaBean的某个"复杂类型"属性，比如集合
+	
+
+	一对一
+		① bean中封装 关联对象 private T t;
+		② association
+			两种方式
+				|- 嵌套结果
+				|- 嵌套查询
+		
+	一对多
+		① bean中封装 关联对象 private List<T> t_list;
+		② collection
+			两种方式
+				|- 嵌套结果
+				|- 嵌套查询
+		
+			
+N+1问题
+	
+
+注意:
+	resultMap & resultType	二者不能同时存在
+	
+
+	
+	

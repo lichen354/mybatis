@@ -1,0 +1,43 @@
+.常用开发工具
+	使用Junit完成单元测试
+		项目--右键--buildPath--configure build Path--Add Library--junit
+	
+	@Before
+	@Test
+	@After
+	
+	MyBatis使用Log4j打印系统日志
+		<settings>
+			<setting name="logImpl" value="STDOUT_LOGGING" />
+		</settings>
+		其中   STDOUT_LOGGING 控制台输出    LOG4J 文件输出
+		
+	
+MyBatis缓存
+	|-一级缓存是在 SqlSession 上的缓存
+	| 	默认情况下，也就是没有任何配置的情况下, MyBatis 自动会开启一级缓存
+    | 
+	|-二级缓存是在 SqlSessionFactory 上的缓存。也就是Application级缓存
+	|	要启用全局的二级缓存，只需要在你的 SQL 映射文件中添加一行：
+	| 	<cache/>
+	|	缓存效果如下:
+			所有 select 语句的结果将会被缓存。
+			所有 insert、update 和 delete 语句会刷新缓存。
+			缓存会使用最近最少使用算法（LRU, Least Recently Used）算法来清除不需要的缓存。
+			缓存不会定时进行刷新（也就是说，没有刷新间隔）。
+			缓存会保存列表或对象（无论查询方法返回哪种）的 1024 个引用。
+			缓存会被视为读/写缓存，这意味着获取到的对象并不是共享的，可以安全地被调用者修改，而不干扰其他调用者或线程所做的潜在修改。
+
+注意:
+	开启mybatis二级缓存要求,返回的POJO必须是可序列化的。 也就是要求实现Serializable接口
+
+	可以在开启二级缓存时候，手动配置一些属性
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>		
+	这个更高级的配置创建了一个 FIFO 缓存，每隔 60 秒刷新，最多可以存储结果对象或列表的 512 个引用，而且返回的对象被认为是只读的，因此对它们进行修改可能会在不同线程中的调用者产生冲突。
+	
+	可用的清除策略有：
+		LRU – 最近最少使用：移除最长时间不被使用的对象。
+		FIFO – 先进先出：按对象进入缓存的顺序来移除它们。
+		SOFT – 软引用：基于垃圾回收器状态和软引用规则移除对象。
+		WEAK – 弱引用：更积极地基于垃圾收集器状态和弱引用规则移除对象。
+			

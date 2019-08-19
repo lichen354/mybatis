@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sram.mybatis.lesson04.pojo.Course">
+	
+	<!-- 
+		方式一：嵌套结果： 使用嵌套结果映射来处理重复的联合结果的子集
+   		封装联表查询的数据(去除重复的数据)
+        select * from class c, teacher t where c.teacher_id=t.t_id
+	 -->
+        
+	<resultMap type="sram.mybatis.lesson04.pojo.Course" id="map01">
+		<id property="cno" column="Cno" javaType="String" jdbcType="VARCHAR"/><!-- VARCHAR大写 -->
+		<result property="cname" column="Cname" javaType="String" jdbcType="VARCHAR"/>
+		
+		<association property="teacher" javaType="sram.mybatis.lesson04.pojo.Teacher">
+			<id property="tno" column="Tno" javaType="String" jdbcType="VARCHAR"/>
+			<result property="tname" column="Tname" javaType="String" jdbcType="VARCHAR"/>
+		</association>
+	</resultMap>
+	
+	<select id="query01" resultMap="map01">
+		select * from course c, teacher t where t.Tno=c.Tno
+	</select>
+	
+	
+	<!-- 
+		方式二：嵌套查询：通过执行另外一个SQL映射语句来返回预期的复杂类型
+        select * from course 
+        select * from teacher where Tno=#{tno}  //关联字段
+	 -->
+	 <resultMap type="sram.mybatis.lesson04.pojo.Course" id="map02">
+	 	<id property="cno" column="Cno" javaType="String" jdbcType="VARCHAR"/>
+		<result property="cname" column="Cname" javaType="String" jdbcType="VARCHAR"/>
+		
+		<!-- coures表	Tno字段 关联 teacher表 -->
+		<association property="teacher" column="Tno" select="getTeacher" />
+	 </resultMap>
+	 
+	 
+	 <select id="query02" resultMap="map02">
+	 	select * from course 
+	 </select>
+	
+	<select id="getTeacher" parameterType="String" resultType="sram.mybatis.lesson04.pojo.Teacher">
+		select * from teacher where Tno=#{tno}
+	</select>
+	
+</mapper>

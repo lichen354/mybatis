@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sram.mybatis.lesson04.pojo.Student">
+		<!-- 
+		方式一：嵌套结果： 使用嵌套结果映射来处理重复的联合结果的子集
+   		封装联表查询的数据(去除重复的数据)
+        select * from score c, student s where c.sno=s.sno
+	 -->
+	<resultMap type="sram.mybatis.lesson04.pojo.Student" id="studentMap">
+		<id property="sno" column="Sno" javaType="String" jdbcType="VARCHAR"/>
+		<result property="sname" column="Sname" javaType="String" jdbcType="VARCHAR"/>
+		<result property="sbirth" column="Sbirth" javaType="Date" jdbcType="DATE"/> 
+ 		<result property="ssex" column="Ssex" javaType="String" jdbcType="VARCHAR"/> 
+		
+		<collection property="score_list"  ofType="sram.mybatis.lesson04.pojo.Score">
+			<!-- 注意:mybatis会以id元素去重 当表中没有主键字段时不要用id元素 -->
+			<result property="sno" column="SC_Sno" javaType="String" jdbcType="VARCHAR"/>
+			<result property="cno" column="SC_Cno" javaType="String" jdbcType="VARCHAR"/>
+			<result property="score" column="score" javaType="BigDecimal" jdbcType="DECIMAL"/>
+		</collection>
+	</resultMap>
+	
+	<select id="query" resultMap="studentMap">
+		select st.Sno Sno, st.Sname Sname, st.Sbirth Sbirth, st.Ssex Ssex,
+			sc.Sno SC_Sno, sc.Cno SC_Cno, sc.score score
+			 from student st right join score sc on st.Sno=sc.Sno 
+	</select>
+	
+	
+	
+	<!-- 
+		方式二：嵌套查询：通过执行另外一个SQL映射语句来返回预期的复杂类型
+        select * from student 
+        select * from score where sno=#{sno}  //关联字段
+	 -->
+	 <resultMap type="sram.mybatis.lesson04.pojo.Student" id="studentMap2">
+		<id property="sno" column="Sno" javaType="String" jdbcType="VARCHAR"/>
+		<result property="sname" column="Sname" javaType="String" jdbcType="VARCHAR"/>
+		<result property="sbirth" column="Sbirth" javaType="Date" jdbcType="DATE"/>
+		<result property="ssex" column="Ssex" javaType="String" jdbcType="VARCHAR"/>
+		
+		<collection property="score_list"  select="getScore" column="sno" fetchType="lazy"></collection>
+	</resultMap>
+	
+	<select id="query02" resultMap="studentMap2">
+		select * from student
+	</select>
+	<select id="getScore" parameterType="String" resultType="sram.mybatis.lesson04.pojo.Score">
+		select * from score where sno=#{sno}
+	</select>
+	
+</mapper>
